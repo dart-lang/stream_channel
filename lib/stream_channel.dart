@@ -6,8 +6,8 @@ import 'dart:async';
 
 import 'package:async/async.dart';
 
-import 'src/guarantee_channel.dart';
 import 'src/close_guarantee_channel.dart';
+import 'src/guarantee_channel.dart';
 import 'src/stream_channel_transformer.dart';
 
 export 'src/delegating_stream_channel.dart';
@@ -25,8 +25,9 @@ export 'src/stream_channel_transformer.dart';
 /// canonical indicator that the channel has closed. If they wish to close the
 /// channel, they should close the [sink]—canceling the stream subscription is
 /// not sufficient. Protocol errors may be emitted through the stream or through
-/// [Sink.done], depending on their underlying cause. Note that the sink may
-/// silently drop events if the channel closes before [Sink.close] is called.
+/// [StreamSink.done], depending on their underlying cause. Note that the sink
+/// may silently drop events if the channel closes before [Sink.close] is
+/// called.
 ///
 /// Implementations are strongly encouraged to mix in or extend
 /// [StreamChannelMixin] to get default implementations of the various instance
@@ -53,7 +54,7 @@ export 'src/stream_channel_transformer.dart';
 ///   even after the subscription has been canceled.
 ///
 /// * The sink *either* forwards errors to the other endpoint *or* closes as
-///   soon as an error is added and forwards that error to the [Sink.done]
+///   soon as an error is added and forwards that error to the [StreamSink.done]
 ///   future.
 ///
 /// These guarantees allow users to interact uniformly with all implementations,
@@ -69,8 +70,8 @@ abstract class StreamChannel<T> {
   /// Creates a new [StreamChannel] that communicates over [stream] and [sink].
   ///
   /// Note that this stream/sink pair must provide the guarantees listed in the
-  /// [StreamChannel] documentation. If they don't do so natively, [new
-  /// StreamChannel.withGuarantees] should be used instead.
+  /// [StreamChannel] documentation. If they don't do so natively,
+  /// [new StreamChannel.withGuarantees] should be used instead.
   factory StreamChannel(Stream<T> stream, StreamSink<T> sink) =>
       new _StreamChannel<T>(stream, sink);
 
@@ -83,7 +84,7 @@ abstract class StreamChannel<T> {
   ///
   /// If [allowSinkErrors] is `false`, errors are not allowed to be passed to
   /// [sink]. If any are, the connection will close and the error will be
-  /// forwarded to [Sink.done].
+  /// forwarded to [StreamSink.done].
   factory StreamChannel.withGuarantees(Stream<T> stream, StreamSink<T> sink,
           {bool allowSinkErrors: true}) =>
       new GuaranteeChannel(stream, sink, allowSinkErrors: allowSinkErrors);
@@ -127,7 +128,7 @@ abstract class StreamChannel<T> {
   /// Returns a copy of [this] with the generic type coerced to [S].
   ///
   /// If any events emitted by [stream] aren't of type [S], they're converted
-  /// into [CastError] events. Similarly, if any events are added to [sync] that
+  /// into [CastError] events. Similarly, if any events are added to [sink] that
   /// aren't of type [S], a [CastError] is thrown.
   StreamChannel<S> cast<S>();
 }
