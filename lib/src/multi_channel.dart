@@ -146,7 +146,6 @@ class _MultiChannel extends StreamChannelMixin implements MultiChannel {
         // If we receive a message for a controller that doesn't have a local
         // counterpart yet, create a controller for it to buffer incoming
         // messages for when a local connection is created.
-
         _pendingIds.add(id);
         return new StreamChannelController(sync: true);
       });
