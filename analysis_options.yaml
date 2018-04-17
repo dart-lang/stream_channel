@@ -1,5 +1,6 @@
 analyzer:
   strong-mode: true
+  # These are errors when building in Google
   errors:
     unused_import: error
     unused_element: error
