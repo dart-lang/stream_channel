@@ -58,7 +58,8 @@ abstract class MultiChannel<T> implements StreamChannel<T> {
   /// [inner].
   ///
   /// The inner channel must take JSON-like objects.
-  factory MultiChannel(StreamChannel<dynamic> inner) => new _MultiChannel<T>(inner);
+  factory MultiChannel(StreamChannel<dynamic> inner) =>
+      new _MultiChannel<T>(inner);
 
   /// Creates a new virtual channel.
   ///
