@@ -135,7 +135,7 @@ void main() {
       connectPort.close();
     });
 
-    test("create a connected pair of channels", () async {
+    test("create a connected pair of channels", () {
       var channel1 = new IsolateChannel<int>.connectReceive(connectPort);
       var channel2 = new IsolateChannel<int>.connectSend(connectPort.sendPort);
 
