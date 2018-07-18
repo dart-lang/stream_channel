@@ -1,3 +1,7 @@
+## 1.6.7+2
+
+* Allow using non-dev Dart 2 SDK.
+
 ## 1.6.7+1
 
 * Fix Dart 2 runtime types in `IsolateChannel`.
