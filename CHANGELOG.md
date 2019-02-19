@@ -1,3 +1,7 @@
+## 1.7.0
+
+* Use a config specific import for `IsolateChannel`.
+
 ## 1.6.8
 
 * Set max SDK version to `<3.0.0`, and adjust other dependencies.
