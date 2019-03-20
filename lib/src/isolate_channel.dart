@@ -38,7 +38,7 @@ class IsolateChannel<T> extends StreamChannelMixin<T> {
   /// at least until the next major version release. If the protocol is
   /// violated, the resulting channel will emit a single value on its stream and
   /// then close.
-  factory IsolateChannel.connectReceive(ReceivePort receivePort) {
+  factory IsolateChannel.connectReceive(dynamic receivePort) {
     // We can't use a [StreamChannelCompleter] here because we need the return
     // value to be an [IsolateChannel].
     var streamCompleter = new StreamCompleter<T>();
@@ -84,7 +84,7 @@ class IsolateChannel<T> extends StreamChannelMixin<T> {
   ///
   /// The connection protocol is guaranteed to remain compatible across versions
   /// at least until the next major version release.
-  factory IsolateChannel.connectSend(SendPort sendPort) {
+  factory IsolateChannel.connectSend(dynamic sendPort) {
     var receivePort = new ReceivePort();
     sendPort.send(receivePort.sendPort);
     return new IsolateChannel(receivePort, sendPort);
@@ -92,7 +92,7 @@ class IsolateChannel<T> extends StreamChannelMixin<T> {
 
   /// Creates a stream channel that receives messages from [receivePort] and
   /// sends them over [sendPort].
-  factory IsolateChannel(ReceivePort receivePort, SendPort sendPort) {
+  factory IsolateChannel(dynamic receivePort, dynamic sendPort) {
     var controller =
         new StreamChannelController<T>(allowForeignErrors: false, sync: true);
     receivePort.cast<T>().pipe(controller.local.sink);
