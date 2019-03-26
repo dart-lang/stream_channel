@@ -13,3 +13,6 @@ dependencies:
 
 dev_dependencies:
   test: ^1.2.0
+
+dependency_overrides:
+  test: ^1.2.0
