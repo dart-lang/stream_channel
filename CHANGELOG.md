@@ -1,6 +1,8 @@
 ## 1.7.0
 
 * Use a config specific import for `IsolateChannel`.
+* Require `2.0.0` or newer SDK.
+* Drop unnecessary `new` and `const`.
 
 ## 1.6.8
 
