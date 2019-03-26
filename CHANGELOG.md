@@ -4,8 +4,14 @@
   `package:stram_channel/isolate_channel.dart`.
   `package:stream_channel/stream_channel.dart` will now not trigger any platform
   concerns due to importing `dart:isolate`.
+
+## 1.7.0
+
+* Make `IsolateChannel` available through
+  `package:stream_channel/isolate_channel.dart`. This will be the required
+  import in the next release.
 * Require `2.0.0` or newer SDK.
-* Drop unnecessary `new` and `const`.
+* Internal style changes.
 
 ## 1.6.8
 
