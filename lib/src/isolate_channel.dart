@@ -3,6 +3,7 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import 'dart:async';
+// ignore: uri_does_not_exist
 import 'isolate_stub.dart' if (dart.library.isolate) 'dart:isolate';
 
 import 'package:async/async.dart';
