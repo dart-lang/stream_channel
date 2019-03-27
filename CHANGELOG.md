@@ -8,6 +8,7 @@
   concerns due to importing `dart:isolate`.
 * Remove `JsonDocumentTransformer` class. The `jsonDocument` top level is still
   available.
+* Remove `StreamChannelTransformer.typed`
 
 ## 1.7.0
 
