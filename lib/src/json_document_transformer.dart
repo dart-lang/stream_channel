@@ -22,7 +22,6 @@ final jsonDocument = const _JsonDocumentTransformer();
 
 class _JsonDocumentTransformer
     implements StreamChannelTransformer<Object, String> {
-
   const _JsonDocumentTransformer();
 
   @override
