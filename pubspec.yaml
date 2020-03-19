@@ -63,8 +63,18 @@ dependency_overrides:
     git:
       url: git://github.com/dart-lang/term_glyph.git
       ref: null_safety
+  test:
+    git:
+      url: git://github.com/dart-lang/test.git
+      path: pkgs/test
+      ref: null_safety
   test_api:
     git:
       url: git://github.com/dart-lang/test.git
       ref: null_safety
       path: pkgs/test_api
+  test_core:
+    git:
+      url: git://github.com/dart-lang/test.git
+      path: pkgs/test_core
+      ref: null_safety
