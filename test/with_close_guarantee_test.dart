@@ -9,7 +9,7 @@ import 'package:pedantic/pedantic.dart';
 import 'package:stream_channel/stream_channel.dart';
 import 'package:test/test.dart';
 
-final _delayTransformer = StreamTransformer<Object?, Object?>.fromHandlers(
+final _delayTransformer = StreamTransformer.fromHandlers(
     handleData: (data, sink) => Future.microtask(() => sink.add(data)),
     handleDone: (sink) => Future.microtask(() => sink.close()));
 
