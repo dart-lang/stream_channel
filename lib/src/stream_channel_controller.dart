@@ -32,15 +32,13 @@ class StreamChannelController<T> {
   ///
   /// This channel should be used directly by the creator of this
   /// [StreamChannelController] to send and receive events.
-  StreamChannel<T> get local => _local;
-  late final StreamChannel<T> _local;
+  late final StreamChannel<T> local;
 
   /// The foreign channel.
   ///
   /// This channel should be returned to external users so they can communicate
   /// with [local].
-  StreamChannel<T> get foreign => _foreign;
-  late final StreamChannel<T> _foreign;
+  late final StreamChannel<T> foreign;
 
   /// Creates a [StreamChannelController].
   ///
@@ -55,9 +53,9 @@ class StreamChannelController<T> {
   StreamChannelController({bool allowForeignErrors = true, bool sync = false}) {
     var localToForeignController = StreamController<T>(sync: sync);
     var foreignToLocalController = StreamController<T>(sync: sync);
-    _local = StreamChannel<T>.withGuarantees(
+    local = StreamChannel<T>.withGuarantees(
         foreignToLocalController.stream, localToForeignController.sink);
-    _foreign = StreamChannel<T>.withGuarantees(
+    foreign = StreamChannel<T>.withGuarantees(
         localToForeignController.stream, foreignToLocalController.sink,
         allowSinkErrors: allowForeignErrors);
   }
