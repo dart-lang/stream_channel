@@ -137,7 +137,7 @@ class _MultiChannel<T> extends StreamChannelMixin<T>
     // This allows it to begin connected without having to send over an id.
     _controllers[0] = _mainController;
     _mainController.local.stream.listen(
-        (message) => _inner!.sink.add([0, message]),
+        (message) => _inner!.sink.add(<Object?>[0, message]),
         onDone: () => _closeChannel(0, 0));
 
     _innerStreamSubscription = _inner!.stream.cast<List>().listen((message) {
@@ -208,7 +208,7 @@ class _MultiChannel<T> extends StreamChannelMixin<T>
     }
 
     controller.local.stream.listen(
-        (message) => _inner!.sink.add([outputId, message]),
+        (message) => _inner!.sink.add(<Object?>[outputId, message]),
         onDone: () => _closeChannel(inputId, outputId));
     return VirtualChannel._(
         this, outputId, controller.foreign.stream, controller.foreign.sink);
