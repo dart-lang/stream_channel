@@ -7,8 +7,8 @@ import 'dart:convert';
 import 'dart:io';
 import 'dart:isolate';
 
-import 'package:stream_channel/stream_channel.dart';
 import 'package:stream_channel/isolate_channel.dart';
+import 'package:stream_channel/stream_channel.dart';
 
 Future<void> main() async {
   // A StreamChannel<T>, is in simplest terms, a wrapper around a Stream<T> and
@@ -93,7 +93,10 @@ Future<void> main() async {
 
   // You can use the `Disconnector` transformer to cause a channel to act as
   // though the remote end of its transport had disconnected.
-  await stringChannel.transform(Disconnector());
+  var disconnector = Disconnector<String>();
+  var disconnectable = stringChannel.transform(disconnector);
+  disconnectable.sink.add('Still connected!');
+  disconnector.disconnect();
 
   // Additionally:
   //   * The `DelegatingStreamController<T>` class can be extended to build a
