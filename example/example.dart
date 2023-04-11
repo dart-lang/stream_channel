@@ -1,7 +1,12 @@
+// Copyright (c) 2023, the Dart project authors.  Please see the AUTHORS file
+// for details. All rights reserved. Use of this source code is governed by a
+// BSD-style license that can be found in the LICENSE file.
+
 import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 import 'dart:isolate';
+
 import 'package:stream_channel/stream_channel.dart';
 import 'package:stream_channel/isolate_channel.dart';
 
@@ -37,8 +42,8 @@ Future<void> main() async {
     ..local.sink.add('Piped!\n');
   await ctrl.local.sink.close();
 
-  // The StreamChannel<T> interface provides several guarantees, which can be found
-  // here:
+  // The StreamChannel<T> interface provides several guarantees, which can be
+  // found here:
   // https://pub.dev/documentation/stream_channel/latest/stream_channel/StreamChannel-class.html
   //
   // By calling `StreamChannel<T>.withGuarantees()`, you can create a
@@ -62,10 +67,10 @@ Future<void> main() async {
   var channel1 = multiChannel.virtualChannel();
   await multiChannel.sink.close();
 
-  // The client/peer should also create its own MultiChannel<T>, connected to the
-  // underlying transport, use the corresponding ID's to handle events in their
-  // respective channels. It is up to you how to communicate channel ID's across
-  // different endpoints.
+  // The client/peer should also create its own MultiChannel<T>, connected to
+  // the underlying transport, use the corresponding ID's to handle events in
+  // their respective channels. It is up to you how to communicate channel ID's
+  // across different endpoints.
   var dummyCtrl2 = StreamChannelController<String>();
   var multiChannel2 = MultiChannel<String>(dummyCtrl2.foreign);
   var channel2 = multiChannel2.virtualChannel(channel1.id);
@@ -90,7 +95,7 @@ Future<void> main() async {
   // though the remote end of its transport had disconnected.
   await stringChannel.transform(Disconnector());
 
-  // Additionally, know that:
+  // Additionally:
   //   * The `DelegatingStreamController<T>` class can be extended to build a
   //     basis for wrapping other `StreamChannel<T>` objects.
   //   * The `jsonDocument` transformer converts events to/from JSON, using
