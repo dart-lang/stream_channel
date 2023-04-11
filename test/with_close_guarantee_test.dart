@@ -5,7 +5,6 @@
 import 'dart:async';
 
 import 'package:async/async.dart';
-import 'package:pedantic/pedantic.dart';
 import 'package:stream_channel/stream_channel.dart';
 import 'package:test/test.dart';
 
@@ -17,8 +16,8 @@ final _delaySinkTransformer =
     StreamSinkTransformer.fromStreamTransformer(_delayTransformer);
 
 void main() {
-  StreamChannelController controller;
-  StreamChannel channel;
+  late StreamChannelController controller;
+  late StreamChannel channel;
   setUp(() {
     controller = StreamChannelController();
 

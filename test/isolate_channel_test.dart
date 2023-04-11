@@ -3,19 +3,19 @@
 // BSD-style license that can be found in the LICENSE file.
 
 @TestOn('vm')
+library;
 
 import 'dart:async';
 import 'dart:isolate';
 
-import 'package:pedantic/pedantic.dart';
 import 'package:stream_channel/isolate_channel.dart';
 import 'package:stream_channel/stream_channel.dart';
 import 'package:test/test.dart';
 
 void main() {
-  ReceivePort receivePort;
-  SendPort sendPort;
-  StreamChannel channel;
+  late ReceivePort receivePort;
+  late SendPort sendPort;
+  late StreamChannel channel;
   setUp(() {
     receivePort = ReceivePort();
     var receivePortForSend = ReceivePort();
@@ -128,7 +128,7 @@ void main() {
   });
 
   group('connect constructors', () {
-    ReceivePort connectPort;
+    late ReceivePort connectPort;
     setUp(() {
       connectPort = ReceivePort();
     });
@@ -137,19 +137,21 @@ void main() {
       connectPort.close();
     });
 
-    test('create a connected pair of channels', () {
+    test('create a connected pair of channels', () async {
       var channel1 = IsolateChannel<int>.connectReceive(connectPort);
       var channel2 = IsolateChannel<int>.connectSend(connectPort.sendPort);
 
       channel1.sink.add(1);
       channel1.sink.add(2);
       channel1.sink.add(3);
-      expect(channel2.stream.take(3).toList(), completion(equals([1, 2, 3])));
+      expect(await channel2.stream.take(3).toList(), equals([1, 2, 3]));
 
       channel2.sink.add(4);
       channel2.sink.add(5);
       channel2.sink.add(6);
-      expect(channel1.stream.take(3).toList(), completion(equals([4, 5, 6])));
+      expect(await channel1.stream.take(3).toList(), equals([4, 5, 6]));
+
+      await channel2.sink.close();
     });
 
     test('the receiving channel produces an error if it gets the wrong message',

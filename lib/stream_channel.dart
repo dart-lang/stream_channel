@@ -6,8 +6,8 @@ import 'dart:async';
 
 import 'package:async/async.dart';
 
-import 'src/guarantee_channel.dart';
 import 'src/close_guarantee_channel.dart';
+import 'src/guarantee_channel.dart';
 import 'src/stream_channel_transformer.dart';
 
 export 'src/delegating_stream_channel.dart';
@@ -75,9 +75,9 @@ abstract class StreamChannel<T> {
 
   /// Creates a new [StreamChannel] that communicates over [stream] and [sink].
   ///
-  /// Unlike [new StreamChannel], this enforces the guarantees listed in the
+  /// Unlike [StreamChannel.new], this enforces the guarantees listed in the
   /// [StreamChannel] documentation. This makes it somewhat less efficient than
-  /// just wrapping a stream and a sink directly, so [new StreamChannel] should
+  /// just wrapping a stream and a sink directly, so [StreamChannel.new] should
   /// be used when the guarantees are provided natively.
   ///
   /// If [allowSinkErrors] is `false`, errors are not allowed to be passed to
@@ -126,8 +126,9 @@ abstract class StreamChannel<T> {
   /// Returns a copy of this with the generic type coerced to [S].
   ///
   /// If any events emitted by [stream] aren't of type [S], they're converted
-  /// into [CastError] events. Similarly, if any events are added to [sink] that
-  /// aren't of type [S], a [CastError] is thrown.
+  /// into [TypeError] events (`CastError` on some SDK versions). Similarly, if
+  /// any events are added to [sink] that aren't of type [S], a [TypeError] is
+  /// thrown.
   StreamChannel<S> cast<S>();
 }
 

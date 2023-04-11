@@ -2,14 +2,15 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-import 'package:pedantic/pedantic.dart';
+import 'dart:async';
+
 import 'package:stream_channel/stream_channel.dart';
 import 'package:test/test.dart';
 
 void main() {
-  StreamChannelController controller;
-  MultiChannel channel1;
-  MultiChannel channel2;
+  late StreamChannelController controller;
+  late MultiChannel channel1;
+  late MultiChannel channel2;
   setUp(() {
     controller = StreamChannelController();
     channel1 = MultiChannel<int>(controller.local);
@@ -85,8 +86,8 @@ void main() {
   });
 
   group('a locally-created virtual channel', () {
-    VirtualChannel virtual1;
-    VirtualChannel virtual2;
+    late VirtualChannel virtual1;
+    late VirtualChannel virtual2;
     setUp(() {
       virtual1 = channel1.virtualChannel();
       virtual2 = channel2.virtualChannel(virtual1.id);
@@ -185,8 +186,8 @@ void main() {
   });
 
   group('a remotely-created virtual channel', () {
-    VirtualChannel virtual1;
-    VirtualChannel virtual2;
+    late VirtualChannel virtual1;
+    late VirtualChannel virtual2;
     setUp(() {
       virtual1 = channel1.virtualChannel();
       virtual2 = channel2.virtualChannel(virtual1.id);
@@ -297,8 +298,8 @@ void main() {
   });
 
   group('when the underlying stream', () {
-    VirtualChannel virtual1;
-    VirtualChannel virtual2;
+    late VirtualChannel virtual1;
+    late VirtualChannel virtual2;
     setUp(() {
       virtual1 = channel1.virtualChannel();
       virtual2 = channel2.virtualChannel(virtual1.id);
@@ -347,8 +348,8 @@ void main() {
   group('stream channel rules', () {
     group('for the main stream:', () {
       test(
-          'closing the sink causes the stream to close before it emits any more '
-          'events', () {
+          'closing the sink causes the stream to close before it emits any '
+          'more events', () {
         channel1.sink.add(1);
         channel1.sink.add(2);
         channel1.sink.add(3);
@@ -369,7 +370,8 @@ void main() {
         channel2.sink.add(3);
         unawaited(channel2.sink.close());
 
-        // None of our channel.sink additions should make it to the other endpoint.
+        // None of our channel.sink additions should make it to the other
+        // endpoint.
         channel1.stream.listen(expectAsync1((_) {}, count: 0));
         await pumpEventQueue();
       });
@@ -406,16 +408,16 @@ void main() {
     });
 
     group('for a virtual channel:', () {
-      VirtualChannel virtual1;
-      VirtualChannel virtual2;
+      late VirtualChannel virtual1;
+      late VirtualChannel virtual2;
       setUp(() {
         virtual1 = channel1.virtualChannel();
         virtual2 = channel2.virtualChannel(virtual1.id);
       });
 
       test(
-          'closing the sink causes the stream to close before it emits any more '
-          'events', () {
+          'closing the sink causes the stream to close before it emits any '
+          'more events', () {
         virtual1.sink.add(1);
         virtual1.sink.add(2);
         virtual1.sink.add(3);
@@ -436,7 +438,8 @@ void main() {
         virtual2.sink.add(3);
         unawaited(virtual2.sink.close());
 
-        // None of our virtual.sink additions should make it to the other endpoint.
+        // None of our virtual.sink additions should make it to the other
+        // endpoint.
         virtual1.stream.listen(expectAsync1((_) {}, count: 0));
         await pumpEventQueue();
       });

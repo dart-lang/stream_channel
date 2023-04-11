@@ -5,15 +5,14 @@
 import 'dart:async';
 
 import 'package:async/async.dart';
-import 'package:pedantic/pedantic.dart';
 import 'package:stream_channel/stream_channel.dart';
 import 'package:test/test.dart';
 
 void main() {
-  StreamController streamController;
-  StreamController sinkController;
-  Disconnector disconnector;
-  StreamChannel channel;
+  late StreamController streamController;
+  late StreamController sinkController;
+  late Disconnector disconnector;
+  late StreamChannel channel;
   setUp(() {
     streamController = StreamController();
     sinkController = StreamController();
@@ -143,7 +142,7 @@ class _CloseCompleterSink extends DelegatingStreamSink {
   /// The completer for the future returned by [close].
   final completer = Completer();
 
-  _CloseCompleterSink(StreamSink inner) : super(inner);
+  _CloseCompleterSink(super.inner);
 
   @override
   Future<void> close() {

@@ -1,7 +1,19 @@
-## 2.1.0-dev
+## 2.1.2-dev
 
-* Require Dart `2.2.0` or later.
+* Require Dart 2.19
 * Add an example.
+
+## 2.1.1
+
+* Require Dart 2.14
+* Populate the pubspec `repository` field.
+* Handle multichannel messages where the ID element is a `double` at runtime
+  instead of an `int`. When reading an array with `dart2wasm` numbers within the
+  array are parsed as `double`.
+
+## 2.1.0
+
+* Stable release for null safety.
 
 ## 2.0.0
 
