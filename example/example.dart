@@ -96,7 +96,7 @@ Future<void> main() async {
   var disconnector = Disconnector<String>();
   var disconnectable = stringChannel.transform(disconnector);
   disconnectable.sink.add('Still connected!');
-  disconnector.disconnect();
+  await disconnector.disconnect();
 
   // Additionally:
   //   * The `DelegatingStreamController<T>` class can be extended to build a
