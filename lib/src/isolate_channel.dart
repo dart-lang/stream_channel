@@ -9,6 +9,8 @@ import 'package:async/async.dart';
 
 import '../stream_channel.dart';
 
+import 'dart:io';
+
 /// A [StreamChannel] that communicates over a [ReceivePort]/[SendPort] pair,
 /// presumably with another isolate.
 ///
@@ -43,19 +45,29 @@ class IsolateChannel<T> extends StreamChannelMixin<T> {
   factory IsolateChannel.connectReceive(ReceivePort receivePort) {
     // We can't use a [StreamChannelCompleter] here because we need the return
     // value to be an [IsolateChannel].
+    var isCompleted = false;
     var streamCompleter = StreamCompleter<T>();
     var sinkCompleter = StreamSinkCompleter<T>();
-    var channel =
-        IsolateChannel<T>._(streamCompleter.stream, sinkCompleter.sink);
+
+    var channel = IsolateChannel<T>._(streamCompleter.stream, sinkCompleter.sink
+        .transform(StreamSinkTransformer.fromHandlers(handleDone: (sink) {
+      if (!isCompleted) {
+        receivePort.close();
+        streamCompleter.setSourceStream(Stream.empty());
+        sinkCompleter.setDestinationSink(NullStreamSink<T>());
+      }
+      sink.close();
+    })));
 
     // The first message across the ReceivePort should be a SendPort pointing to
     // the remote end. If it's not, we'll make the stream emit an error
     // complaining.
     late StreamSubscription<dynamic> subscription;
     subscription = receivePort.listen((message) {
+      isCompleted = true;
       if (message is SendPort) {
-        var controller =
-            StreamChannelController<T>(allowForeignErrors: false, sync: true);
+        var controller = StreamChannelController<T>(
+            allowForeignErrors: false, sync: true);
         SubscriptionStream(subscription).cast<T>().pipe(controller.local.sink);
         controller.local.stream
             .listen((data) => message.send(data), onDone: receivePort.close);
