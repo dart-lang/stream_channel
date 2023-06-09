@@ -163,9 +163,10 @@ void main() {
       expect(connectedChannel.sink.done, completes);
     });
 
-    test('the receiving channel closes gracefully without a connection', () async {
+    test('the receiving channel closes gracefully without a connection',
+        () async {
       var connectedChannel = IsolateChannel.connectReceive(connectPort);
-      connectedChannel.sink.close();
+      await connectedChannel.sink.close();
       await expectLater(connectedChannel.stream.toList(), completion(isEmpty));
       await expectLater(connectedChannel.sink.done, completes);
     });

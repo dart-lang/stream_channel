@@ -9,8 +9,6 @@ import 'package:async/async.dart';
 
 import '../stream_channel.dart';
 
-import 'dart:io';
-
 /// A [StreamChannel] that communicates over a [ReceivePort]/[SendPort] pair,
 /// presumably with another isolate.
 ///
@@ -66,8 +64,8 @@ class IsolateChannel<T> extends StreamChannelMixin<T> {
     subscription = receivePort.listen((message) {
       isCompleted = true;
       if (message is SendPort) {
-        var controller = StreamChannelController<T>(
-            allowForeignErrors: false, sync: true);
+        var controller =
+            StreamChannelController<T>(allowForeignErrors: false, sync: true);
         SubscriptionStream(subscription).cast<T>().pipe(controller.local.sink);
         controller.local.stream
             .listen((data) => message.send(data), onDone: receivePort.close);
