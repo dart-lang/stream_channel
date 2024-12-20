@@ -1,3 +1,6 @@
+> [!IMPORTANT]  
+> This repo has moved to https://github.com/dart-lang/tools/tree/main/pkgs/stream_channel
+
 [![Dart CI](https://github.com/dart-lang/stream_channel/actions/workflows/test-package.yml/badge.svg)](https://github.com/dart-lang/stream_channel/actions/workflows/test-package.yml)
 [![pub package](https://img.shields.io/pub/v/stream_channel.svg)](https://pub.dev/packages/stream_channel)
 [![package publisher](https://img.shields.io/pub/publisher/stream_channel.svg)](https://pub.dev/packages/stream_channel/publisher)
